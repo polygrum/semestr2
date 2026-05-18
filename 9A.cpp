@@ -2,8 +2,8 @@
 #include <vector>
 
 class DuoGraph {
-  int v1_;
-  int v2_;
+  int left_sz_;
+  int right_sz_;
   std::vector<std::vector<int>> adj_;
   std::vector<bool> used_;
   std::vector<int> match_;
@@ -22,11 +22,11 @@ class DuoGraph {
     return false;
   }
 
- public:
-  DuoGraph(int v1, int v2) : v1_(v1), v2_(v2) {
-    adj_.resize(v1 + v2);
-    used_.resize(v1 + v2);
-    match_.assign(v1 + v2, -1);
+public:
+  DuoGraph(int left_sz, int right_sz) : left_sz_(left_sz), right_sz_(right_sz) {
+    adj_.resize(left_sz + right_sz);
+    used_.resize(left_sz + right_sz);
+    match_.assign(left_sz + right_sz, -1);
   }
 
   void AddEdge(int l, int r) {
@@ -35,20 +35,20 @@ class DuoGraph {
   }
 
   void Pair() {
-    for (int i = 0; i < v1_; i++) {
-      used_.assign(v1_ + v2_, false);
+    for (int i = 0; i < left_sz_; i++) {
+      used_.assign(left_sz_ + right_sz_, false);
       Dfs(i);
     }
     int count = 0;
-    for (int i = v1_; i < v1_ + v2_; i++) {
+    for (int i = left_sz_; i < left_sz_ + right_sz_; i++) {
       if (match_[i] != -1) {
         count++;
       }
     }
     std::cout << count << '\n';
-    for (int i = v1_; i < v1_ + v2_; i++) {
+    for (int i = left_sz_; i < left_sz_ + right_sz_; i++) {
       if (match_[i] != -1) {
-        std::cout << match_[i] + 1 << " " << i - v1_ + 1 << '\n';
+        std::cout << match_[i] + 1 << " " << i - left_sz_ + 1 << '\n';
       }
     }
   }
